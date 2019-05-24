@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import CancionData from "./CancionData";
+import { obtenerAlbums, obtenerCanciones } from "../Utils";
 
 const getNombreAlbum = (id_Album, albums) => {
-  let name = "";
-  albums.forEach(element => {
-    if (element.id === id_Album) {
-      name = element.name;
-    }
-  });
-  return name;
+  const name = albums.find(a => a.id === id_Album);
+  return name ? name.name : "";
 };
 
 class CancionDataList extends Component {
@@ -24,48 +20,25 @@ class CancionDataList extends Component {
   }
 
   async componentDidMount() {
-    try {
-      const res = await fetch("/songs");
-      const json = await res.json();
-      this.setState(prevState => ({
-        ...prevState,
-        loadingSongs: false,
-        canciones: json
-      }));
-    } catch (err) {
-      console.error("Error accediendo al servidor", err);
-    }
-
-    try {
-      const res = await fetch("/albums");
-      const json = await res.json();
-      this.setState(prevState => ({
-        ...prevState,
-        loadingAlbums: false,
-        albums: json
-      }));
-    } catch (err) {
-      console.error("Error accediendo al servidor", err);
-    }
+    obtenerCanciones(this);
+    obtenerAlbums(this);
   }
 
   rederProgress = () => {
     return "Se esta cargando la musica recomendada.";
-  }
+  };
 
   render() {
-    return this.state.loadingSongs && this.state.loadingAlbums ? (
-      this.rederProgress()
-    ) : (
-      this.state.canciones.map(cancion => (
-        <CancionData
-          key={cancion.id}
-          cancion={cancion}
-          nombreAlbum={getNombreAlbum(cancion.album_id, this.state.albums)}
-          datosExtendidos={false}
-        />
-      ))
-    );
+    return this.state.loadingSongs && this.state.loadingAlbums
+      ? this.rederProgress()
+      : this.state.songs.map(cancion => (
+          <CancionData
+            key={cancion.id}
+            cancion={cancion}
+            nombreAlbum={getNombreAlbum(cancion.album_id, this.state.albums)}
+            datosExtendidos={false}
+          />
+        ));
   }
 }
 

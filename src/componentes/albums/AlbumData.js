@@ -1,28 +1,42 @@
 import React from "react";
+import CancionData from "./../canciones/CancionData";
 
-const AlbumData = ({ nombre, artista, imagen, datosExtendidos }) => {
-  const getDatos = (nombre, artista, imagen, datosExtendidos) => {
+const AlbumData = ({ album, datosExtendidos }) => {
+  const getDatos = (album, datosExtendidos) => {
     if (datosExtendidos) {
-      const urlImagen = `../../..${imagen}`;
+      const urlImagen = `../../..${album.cover}`;
       return (
         <div>
-          <p>{nombre}</p>
-          <p>{artista}</p>
-          <img src={urlImagen} alt={nombre} height="70" width="70" />
+          <p>{album.name}</p>
+          <p>{album.artist}</p>
+          <p>
+            <img src={urlImagen} alt={album.name} height="300" width="300" />
+          </p>
+          <p>Duracion total: {album.duracion}</p>
+          <h4>Canciones del album</h4>
+          {album.cancionesDelAlbum.map(cancion => (
+            <CancionData
+              key={cancion.id}
+              cancion={cancion}
+              nombreAlbum={cancion.name}
+              datosExtendidos={false}
+            />
+          ))}
         </div>
       );
     } else {
+      const srcHref = `album/${album.id}`;
       return (
         <div>
-          <p>{nombre}</p>
+          <p>
+            <a href={srcHref}>{album.name}</a>
+          </p>
         </div>
       );
     }
   };
 
-  return (
-      <li>{getDatos(nombre, artista, imagen, datosExtendidos)}</li>
-  );
+  return getDatos(album, datosExtendidos);
 };
 
 export default AlbumData;

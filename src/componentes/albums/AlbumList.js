@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AlbumData from "../albums/AlbumData";
+import { obtenerAlbums } from "../Utils";
 
 class AlbumList extends Component {
   constructor(props) {
@@ -12,17 +13,7 @@ class AlbumList extends Component {
   }
 
   async componentDidMount() {
-    try {
-      const res = await fetch("/albums");
-      const json = await res.json();
-      this.setState(prevState => ({
-        ...prevState,
-        loadingAlbums: false,
-        albums: json
-      }));
-    } catch (err) {
-      console.error("Error accediendo al servidor", err);
-    }
+    obtenerAlbums(this);
   }
 
   rederProgress = () => {
@@ -33,13 +24,9 @@ class AlbumList extends Component {
     return this.state.loadingAlbums
       ? this.rederProgress()
       : this.state.albums.map(album => (
-          <AlbumData
-            key={album.id}
-            nombre={album.name}
-            artista={album.artist}
-            imagen={album.cover}
-            datosExtendidos={true}
-          />
+          <li>
+            <AlbumData key={album.id} album={album} datosExtendidos={false} />
+          </li>
         ));
   }
 }
