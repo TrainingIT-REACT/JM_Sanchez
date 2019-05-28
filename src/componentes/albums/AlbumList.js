@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import AlbumData from "../albums/AlbumData";
 import { obtenerAlbums } from "../Utils";
+import { addHistorico } from "./../../actions/Historico";
+import { getAlbumsVisitados } from "../../reducers/Historico";
 
 class AlbumList extends Component {
   constructor(props) {
@@ -25,10 +28,27 @@ class AlbumList extends Component {
       ? this.rederProgress()
       : this.state.albums.map(album => (
           <li>
-            <AlbumData key={album.id} album={album} datosExtendidos={false} />
+            <AlbumData
+              key={album.id}
+              album={album}
+              onClick={addHistorico}
+            />
           </li>
         ));
   }
 }
 
-export default AlbumList;
+const mapStateToProps = state => ({
+  albumsVisitados: getAlbumsVisitados(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  addHistorico: texto => dispatch(addHistorico(texto))
+});
+
+const storeConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
+
+export default storeConnect(AlbumList);

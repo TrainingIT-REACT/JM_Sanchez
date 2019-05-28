@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AlbumData from "./AlbumData";
+import AlbumDataExtended from "./AlbumDataExtended";
 import { obtenerAlbums, obtenerCanciones } from "../Utils";
 import { getMinutos } from "./../Utils";
 
@@ -64,7 +64,7 @@ class DetallesAlbum extends Component {
       <div>
         <h3>Detalles del album</h3>
         <ul>
-          <AlbumData
+          <AlbumDataExtended
             album={idAlbum(
               this.state.id_album,
               this.state.albums,

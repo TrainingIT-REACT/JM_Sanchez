@@ -1,42 +1,29 @@
 import React from "react";
-import CancionData from "./../canciones/CancionData";
+import { connect } from "react-redux";
+import { addHistorico } from "../../actions/Historico";
+import { getAlbumsVisitados } from "../../reducers/Historico";
+import { NavLink } from "react-router-dom";
 
-const AlbumData = ({ album, datosExtendidos }) => {
-  const getDatos = (album, datosExtendidos) => {
-    if (datosExtendidos) {
-      const urlImagen = `../../..${album.cover}`;
-      return (
-        <div>
-          <p>{album.name}</p>
-          <p>{album.artist}</p>
-          <p>
-            <img src={urlImagen} alt={album.name} height="300" width="300" />
-          </p>
-          <p>Duracion total: {album.duracion}</p>
-          <h4>Canciones del album</h4>
-          {album.cancionesDelAlbum.map(cancion => (
-            <CancionData
-              key={cancion.id}
-              cancion={cancion}
-              nombreAlbum={cancion.name}
-              datosExtendidos={false}
-            />
-          ))}
-        </div>
-      );
-    } else {
-      const srcHref = `album/${album.id}`;
-      return (
-        <div>
-          <p>
-            <a href={srcHref}>{album.name}</a>
-          </p>
-        </div>
-      );
-    }
-  };
-
-  return getDatos(album, datosExtendidos);
+const AlbumData = ({ album, addHistorico}) => {
+  const srcHref = `album/${album.id}`;
+  return (
+    <div>
+      <NavLink exact to={srcHref} onClick={() => addHistorico(album.name)}>{album.name}</NavLink>
+    </div>
+  );
 };
 
-export default AlbumData;
+const mapStateToProps = state => ({
+  albumsVisitados: getAlbumsVisitados(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  addHistorico: texto => dispatch(addHistorico(texto))
+});
+
+const storeConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
+
+export default storeConnect(AlbumData);

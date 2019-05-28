@@ -1,18 +1,19 @@
 import types from "./../actions/Types";
 
 const initialState = {
-  albumbsVisitados: []
+  historico: {
+  albumsVisitados: [],
+  },
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState.historico, action) => {
   switch (action.type) {
     case types.ADD_HISTORICO: {
       return {
-        albumbsVisitados: [
-          ...state.albumbsVisitados,
-          {
-            text: action.albumActual
-          }
+        ...state,
+        albumsVisitados: [
+          ...state.albumsVisitados,
+          action.text,
         ]
       };
     }
@@ -20,5 +21,7 @@ const reducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export const getAlbumsVisitados = state => state.historico.albumsVisitados;
 
 export default reducer;
