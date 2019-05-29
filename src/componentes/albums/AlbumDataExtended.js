@@ -1,11 +1,8 @@
 import React from "react";
-import { connect } from "react-redux";
 import CancionData from "../canciones/CancionData";
-import { addHistorico } from "../../actions/Historico";
-import { getAlbumsVisitados } from "../../reducers/Historico";
 
 const AlbumDataExtended = ({ album, albumsVisitados }) => {
-  const urlImagen = `../../..${album.cover}`;
+  const urlImagen = `../../../static/${album.cover}`;
   return (
     <div>
       <p>{album.name}</p>
@@ -27,17 +24,5 @@ const AlbumDataExtended = ({ album, albumsVisitados }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  albumsVisitados: getAlbumsVisitados(state)
-});
 
-const mapDispatchToProps = dispatch => ({
-  ello: texto => dispatch(addHistorico(texto))
-});
-
-const storeConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
-
-export default storeConnect(AlbumDataExtended);
+export default AlbumDataExtended;

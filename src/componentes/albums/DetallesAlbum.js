@@ -37,7 +37,7 @@ const getDuracion = cancionesDelAlbum => {
 };
 
 class DetallesAlbum extends Component {
-  constructor(props, list) {
+  constructor(props) {
     super(props);
     this.state = {
       id_album: props.match.params.id_album,

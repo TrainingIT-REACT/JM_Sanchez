@@ -1,26 +1,35 @@
 import React from "react";
-import { getMinutos } from "./../Utils";
+import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import { getCancionesVisitadas } from "../../reducers/Historico";
+import { addHistoricoCanciones } from "../../actions/Historico";
 
-const CancionData = ({ cancion, nombreAlbum, datosExtendidos }) => {
-  const getDatos = (cancion, nombreAlbum, datosExtendidos) => {
-    if (datosExtendidos) {
-      return (
-        <div>
-          <p>Album: {nombreAlbum}</p>
-          <p>{cancion.name}</p>
-          <p>{getMinutos(cancion.seconds)} minutos</p>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <p>{cancion.name}</p>
-        </div>
-      );
-    }
-  };
-
-  return <li>{getDatos(cancion, nombreAlbum, datosExtendidos)}</li>;
+const CancionData = ({ cancion, addHistoricoCanciones }) => {
+  const srcHref = `reproducirCancion/${cancion.id}`;
+  return (
+    <li>
+      <NavLink
+        exact
+        to={srcHref}
+        onClick={() => addHistoricoCanciones(cancion.name)}
+      >
+        {cancion.name}
+      </NavLink>
+    </li>
+  );
 };
 
-export default CancionData;
+const mapStateToProps = state => ({
+  cancionesVisitadas: getCancionesVisitadas(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  addHistoricoCanciones: texto => dispatch(addHistoricoCanciones(texto))
+});
+
+const storeConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
+
+export default storeConnect(CancionData);

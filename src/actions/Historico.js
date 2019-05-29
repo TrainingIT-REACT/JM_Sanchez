@@ -1,6 +1,9 @@
 import types from "./../actions/Types";
 
-export const addHistorico = (text) => {
-  return {type: types.ADD_HISTORICO,
-  text}
+export const addHistoricoAlbums = text => {
+  return { type: types.ADD_HISTORICO_ALBUMS, text };
+};
+
+export const addHistoricoCanciones = text => {
+  return { type: types.ADD_HISTORICO_CANCIONES, text };
 };

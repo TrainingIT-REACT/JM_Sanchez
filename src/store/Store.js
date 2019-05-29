@@ -1,9 +1,11 @@
 import { createStore, combineReducers } from "redux";
 import historico from "../reducers/Historico";
+import usuario from "../reducers/Usuario";
 
 const store = (
   combineReducers({
     historico,
+    usuario
   })
 );
 
