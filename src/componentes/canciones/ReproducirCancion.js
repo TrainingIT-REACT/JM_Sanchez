@@ -1,42 +1,13 @@
 import React, { Component } from "react";
 import ReactAudioPlayer from "react-audio-player";
-import { obtenerCanciones } from "../Utils";
+import { connect } from "react-redux";
+import { getAlbumsYCanciones } from "../../reducers/AlbumsYCanciones";
 
-class ReproducirCancion extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id_cancion: props.match.params.id_cancion,
-      loadingSongs: true,
-      songs: []
-    };
-  }
-
-  async componentDidMount() {
-    obtenerCanciones(this);
-  }
-
-  rederProgress = () => {
-    return "Se esta cargando el reproductor.";
-  };
-
-  rederFinish = () => {
-    const datos = getSrcCancion(this.state);
-    return (
-      <div>
-        <h3>{datos.nombre}</h3>
-        <ReactAudioPlayer src={datos.ubicacion} autoPlay controls />
-      </div>
-    );
-  };
-
-  render() {
-    return this.state.loadingSongs ? this.rederProgress() : this.rederFinish();
-  }
-}
-
-const getSrcCancion = state => {
-  const cancion = state.songs.filter(a => state.id_cancion === a.id.toString());
+const getSrcCancion = props => {
+  debugger;
+  const cancion = props.albumsYCanciones.songs.filter(
+    a => props.match.params.id_cancion === a.id.toString()
+  );
 
   const datos = {
     nombre: cancion[0].name,
@@ -46,4 +17,34 @@ const getSrcCancion = state => {
   return datos;
 };
 
-export default ReproducirCancion;
+class ReproducirCancion extends Component {
+  rederFinish = () => {
+    const datos = getSrcCancion(this.props);
+    return (
+      <div>
+        <h3>{datos.nombre}</h3>
+        <ReactAudioPlayer src={datos.ubicacion} autoPlay controls />
+      </div>
+    );
+  };
+
+  render() {
+    debugger;
+    if (this.props.albumsYCanciones.loading === false) {
+      return this.rederFinish();
+    } else if (this.props.albumsYCanciones.error === true) {
+      return <div>Ha habido un error al reproducir la cancion</div>;
+    } else {
+      return <div>Cargando al reproducir la cancion</div>;
+    }
+  }
+}
+
+const mapStateToProps = state => ({
+  ...state,
+  albumsYCanciones: getAlbumsYCanciones(state)
+});
+
+const storeConnect = connect(mapStateToProps);
+
+export default storeConnect(ReproducirCancion);

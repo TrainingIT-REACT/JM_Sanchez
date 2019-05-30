@@ -1,39 +1,34 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import AlbumData from "../albums/AlbumData";
-import { obtenerAlbums } from "../Utils";
+import { getAlbumsYCanciones } from "../../reducers/AlbumsYCanciones";
 import { addHistoricoAlbums } from "./../../actions/Historico";
 
 class AlbumList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loadingAlbums: true,
-      albums: []
-    };
-  }
-
-  async componentDidMount() {
-    obtenerAlbums(this);
-  }
-
-  rederProgress = () => {
-    return "Se estan cargando los albums disponibles.";
-  };
-
   render() {
-    return this.state.loadingAlbums
-      ? this.rederProgress()
-      : this.state.albums.map(album => (
-          <li>
-            <AlbumData
-              key={album.id}
-              album={album}
-              onClick={addHistoricoAlbums}
-            />
-          </li>
-        ));
+    if (this.props.albumsYCanciones.loading === false) {
+      return this.props.albumsYCanciones.albums.map(album => (
+        <li>
+          <AlbumData
+            key={album.id}
+            album={album}
+            onClick={addHistoricoAlbums}
+          />
+        </li>
+      ));
+    } else if (this.props.albumsYCanciones.error === true) {
+      return <div>Ha habido un error al cargar los albums</div>;
+    } else {
+      return <div>Cargando los albums</div>;
+    }
   }
 }
 
-export default AlbumList;
+const mapStateToProps = state => ({
+  ...state,
+  albumsYCanciones: getAlbumsYCanciones(state)
+});
+
+const storeConnect = connect(mapStateToProps);
+
+export default storeConnect(AlbumList);

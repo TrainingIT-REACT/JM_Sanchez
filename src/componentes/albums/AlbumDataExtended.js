@@ -1,7 +1,7 @@
 import React from "react";
 import CancionData from "../canciones/CancionData";
 
-const AlbumDataExtended = ({ album, albumsVisitados }) => {
+const AlbumDataExtended = ({ album }) => {
   const urlImagen = `../../../static/${album.cover}`;
   return (
     <div>
@@ -16,8 +16,7 @@ const AlbumDataExtended = ({ album, albumsVisitados }) => {
         <CancionData
           key={cancion.id}
           cancion={cancion}
-          nombreAlbum={cancion.name}
-          datosExtendidos={false}
+          albumDataExtended={true}
         />
       ))}
     </div>

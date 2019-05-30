@@ -64,7 +64,9 @@ class Perfil extends Component {
               />
             </div>
           </div>
-          <button type="submit">Modificar Perfil</button>
+          <button type="submit">
+            Modificar Perfil
+          </button>
         </form>
       );
     } else {

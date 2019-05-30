@@ -4,8 +4,13 @@ import { connect } from "react-redux";
 import { getCancionesVisitadas } from "../../reducers/Historico";
 import { addHistoricoCanciones } from "../../actions/Historico";
 
-const CancionData = ({ cancion, addHistoricoCanciones }) => {
-  const srcHref = `reproducirCancion/${cancion.id}`;
+const CancionData = ({ cancion, addHistoricoCanciones, albumDataExtended }) => {
+  var srcHref = "";
+  if(albumDataExtended){
+    srcHref = `../reproducirCancion/${cancion.id}`;
+  } else{
+    srcHref = `/reproducirCancion/${cancion.id}`;
+  }
   return (
     <li>
       <NavLink

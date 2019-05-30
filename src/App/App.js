@@ -13,6 +13,7 @@ import ReproducirCancion from "../componentes/canciones/ReproducirCancion";
 import Login from "../componentes/usuario/Login";
 import Perfil from "../componentes/usuario/Perfil";
 import { getDatosUsuario } from "../reducers/Usuario";
+import { obtenerAlbumsYCanciones } from "../actions/AlbumsYCanciones";
 
 class App extends Component {
   constructor(props) {
@@ -22,6 +23,15 @@ class App extends Component {
       loading: true,
       albums: []
     };
+  }
+
+  componentDidMount() {
+    if (
+      this.props.albumsYCanciones.albums.length === 0 ||
+      this.props.albumsYCanciones.songs.length === 0
+    ) {
+      this.props.obtenerAlbumsYCanciones();
+    }
   }
 
   getLoginOPerfil(props) {
@@ -86,9 +96,17 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
+  ...state,
   usuario: getDatosUsuario(state)
 });
 
-const storeConnect = connect(mapStateToProps);
+const mapDispatchToProps = dispatch => ({
+  obtenerAlbumsYCanciones: () => dispatch(obtenerAlbumsYCanciones())
+});
+
+const storeConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+);
 
 export default storeConnect(App);

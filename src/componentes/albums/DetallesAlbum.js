@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import AlbumDataExtended from "./AlbumDataExtended";
-import { obtenerAlbums, obtenerCanciones } from "../Utils";
 import { getMinutos } from "./../Utils";
+import { getAlbumsYCanciones } from "../../reducers/AlbumsYCanciones";
 
 const idAlbum = (id_album, albums, songs) => {
   const albumBuscado = albums.find(a => id_album === a.id.toString());
@@ -37,45 +38,35 @@ const getDuracion = cancionesDelAlbum => {
 };
 
 class DetallesAlbum extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id_album: props.match.params.id_album,
-      loadingSongs: true,
-      loadingAlbums: true,
-      songs: [],
-      albums: []
-    };
-  }
-
-  async componentDidMount() {
-    obtenerAlbums(this);
-    obtenerCanciones(this);
-  }
-
-  rederProgress = () => {
-    return "Se estan cargando los detalles del album.";
-  };
-
   render() {
-    return this.state.loadingSongs || this.state.loadingAlbums ? (
-      this.rederProgress()
-    ) : (
-      <div>
-        <h3>Detalles del album</h3>
-        <ul>
-          <AlbumDataExtended
-            album={idAlbum(
-              this.state.id_album,
-              this.state.albums,
-              this.state.songs
-            )}
-            datosExtendidos={true}
-          />
-        </ul>
-      </div>
-    );
+    if (this.props.albumsYCanciones.loading === false) {
+      return (
+        <div>
+          <h3>Detalles del album</h3>
+          <ul>
+            <AlbumDataExtended
+              album={idAlbum(
+                this.props.match.params.id_album,
+                this.props.albumsYCanciones.albums,
+                this.props.albumsYCanciones.songs
+              )}
+            />
+          </ul>
+        </div>
+      );
+    } else if (this.props.albumsYCanciones.error === true) {
+      return <div>Ha habido un error al cargar los detalles del album</div>;
+    } else {
+      return <div>Cargando los albums detalles del album</div>;
+    }
   }
 }
 
-export default DetallesAlbum;
+const mapStateToProps = state => ({
+  ...state,
+  albumsYCanciones: getAlbumsYCanciones(state)
+});
+
+const storeConnect = connect(mapStateToProps);
+
+export default storeConnect(DetallesAlbum);
