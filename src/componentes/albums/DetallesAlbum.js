@@ -42,7 +42,6 @@ class DetallesAlbum extends Component {
     if (this.props.albumsYCanciones.loading === false) {
       return (
         <div>
-          <h3>Detalles del album</h3>
           <ul>
             <AlbumDataExtended
               album={idAlbum(

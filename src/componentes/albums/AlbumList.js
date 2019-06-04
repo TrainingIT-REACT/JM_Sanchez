@@ -8,13 +8,11 @@ class AlbumList extends Component {
   render() {
     if (this.props.albumsYCanciones.loading === false) {
       return this.props.albumsYCanciones.albums.map(album => (
-        <li>
           <AlbumData
             key={album.id}
             album={album}
             onClick={addHistoricoAlbums}
           />
-        </li>
       ));
     } else if (this.props.albumsYCanciones.error === true) {
       return <div>Ha habido un error al cargar los albums</div>;

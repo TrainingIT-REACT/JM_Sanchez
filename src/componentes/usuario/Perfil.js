@@ -1,23 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+
 import { addPerfil } from "../../actions/Usuario";
 import { getDatosUsuario } from "../../reducers/Usuario";
+import "./Login.css";
 
 class Perfil extends Component {
   constructor(props) {
     super(props);
 
-    this.nombre = React.createRef();
-    this.edad = React.createRef();
-    this.email = React.createRef();
+    this.state = {
+      nombre: props.usuario.nombre,
+      edad: props.usuario.edad,
+      email: props.usuario.email
+    };
   }
 
   getUsuario = () => {
     return {
-      nombre: this.nombre.current.value,
-      edad: this.edad.current.value,
-      email: this.email.current.value
+      nombre: this.state.nombre,
+      edad: this.state.edad,
+      email: this.state.email
     };
   };
 
@@ -26,47 +32,65 @@ class Perfil extends Component {
     this.props.addPerfil(this.getUsuario());
   }
 
+  handleNombre = event => {
+    this.setState({ nombre: event.target.value });
+  };
+
+  handleEmail = event => {
+    this.setState({ email: event.target.value });
+  };
+
+  handleEdad = event => {
+    this.setState({ edad: event.target.value });
+  };
+
   render() {
     if (this.props.usuario.login) {
       return (
         <form onSubmit={evento => this.onSubmit(evento)}>
-          <div>
+          <div class="centrado">
             <h3>Tu perfil, {this.props.usuario.username}</h3>
             <p>
               Si quieres actualizar algun dato, modifica los datos a
               continuacion
             </p>
             <div>
-              <label>Nombre: </label>
-              <input
-                id="nombre"
-                type="text"
-                ref={this.nombre}
-                placeholder={this.props.usuario.nombre}
+              <TextField
+                required
+                id="outlined-nombre"
+                label="Nombre"
+                value={this.state.nombre}
+                onChange={this.handleNombre}
+                margin="normal"
+                variant="outlined"
               />
             </div>
             <div>
-              <label>Edad: </label>
-              <input
-                id="edad"
-                type="text"
-                ref={this.edad}
-                placeholder={this.props.usuario.edad}
+              <TextField
+                required
+                id="outlined-edad"
+                label="Edad"
+                value={this.state.edad}
+                onChange={this.handleEdad}
+                margin="normal"
+                variant="outlined"
               />
             </div>
             <div>
-              <label>Email: </label>
-              <input
-                id="email"
-                type="text"
-                ref={this.email}
-                placeholder={this.props.usuario.email}
+              <TextField
+                required
+                id="outlined-email"
+                label="Email"
+                value={this.state.email}
+                onChange={this.handleEmail}
+                margin="normal"
+                variant="outlined"
               />
             </div>
+            <Button variant="contained" type="submit">
+              Guardar
+            </Button>
           </div>
-          <button type="submit">
-            Modificar Perfil
-          </button>
         </form>
       );
     } else {

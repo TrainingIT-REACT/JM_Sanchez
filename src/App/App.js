@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
 
 // Css
 import "./App.css";
@@ -21,7 +28,8 @@ class App extends Component {
 
     this.state = {
       loading: true,
-      albums: []
+      albums: [],
+      classes: props
     };
   }
 
@@ -53,26 +61,35 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Bienvenido a la aplicacion Reactify</h1>
-
+        <AppBar position="static" color="default">
+          <Toolbar>
+            <Typography variant="h3" color="inherit">
+              Bienvenido a la aplicacion Reactify
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <Router>
           <div>
-            <div className="barraNavegacion">
-              <nav>
-                <ul>
-                  <li>
+            <div class="barraNavegacion">
+              <Grid container spacing={3} className="centrado">
+                <Grid item xs={3}>
+                  <Paper>
                     <NavLink exact activeClassName="active" to="/">
                       Inicio
                     </NavLink>
-                  </li>
-                  <li>
+                  </Paper>
+                </Grid>
+                <Grid item xs={3}>
+                  <Paper>
                     <NavLink exact activeClassName="active" to="/albums">
                       Albums
                     </NavLink>
-                  </li>
-                  <li>{this.getLoginOPerfil(this.props)}</li>
-                </ul>
-              </nav>
+                  </Paper>
+                </Grid>
+                <Grid item xs={3}>
+                  <Paper>{this.getLoginOPerfil(this.props)}</Paper>
+                </Grid>
+              </Grid>
             </div>
             <Route path="/" exact component={MusicaRecomendada} />
             <Route path="/albums" exact component={Albums} />

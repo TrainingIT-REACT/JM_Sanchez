@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { getAlbumsYCanciones } from "../../reducers/AlbumsYCanciones";
 
 const getSrcCancion = props => {
-  debugger;
   const cancion = props.albumsYCanciones.songs.filter(
     a => props.match.params.id_cancion === a.id.toString()
   );
@@ -29,7 +28,6 @@ class ReproducirCancion extends Component {
   };
 
   render() {
-    debugger;
     if (this.props.albumsYCanciones.loading === false) {
       return this.rederFinish();
     } else if (this.props.albumsYCanciones.error === true) {

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import List from "@material-ui/core/List";
 
 const AlbumList = React.lazy(() => import("../albums/AlbumList"));
 
@@ -7,11 +8,11 @@ class Albums extends Component {
     return (
       <div>
         <h3>Albums disponibles</h3>
-        <ul>
-          <React.Suspense fallback="Se estan cargando los albums disponibles.">
+        <React.Suspense fallback="Se estan cargando los albums disponibles.">
+          <List component="nav">
             <AlbumList />
-          </React.Suspense>
-        </ul>
+          </List>
+        </React.Suspense>
       </div>
     );
   }
