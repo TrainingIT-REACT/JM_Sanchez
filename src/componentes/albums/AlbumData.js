@@ -29,9 +29,7 @@ const mapDispatchToProps = dispatch => ({
   addHistoricoAlbums: texto => dispatch(addHistoricoAlbums(texto))
 });
 
-const storeConnect = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-);
-
-export default storeConnect(AlbumData);
+)(AlbumData);

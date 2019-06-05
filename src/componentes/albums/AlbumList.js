@@ -8,11 +8,7 @@ class AlbumList extends Component {
   render() {
     if (this.props.albumsYCanciones.loading === false) {
       return this.props.albumsYCanciones.albums.map(album => (
-          <AlbumData
-            key={album.id}
-            album={album}
-            onClick={addHistoricoAlbums}
-          />
+        <AlbumData key={album.id} album={album} onClick={addHistoricoAlbums} />
       ));
     } else if (this.props.albumsYCanciones.error === true) {
       return <div>Ha habido un error al cargar los albums</div>;
@@ -27,6 +23,4 @@ const mapStateToProps = state => ({
   albumsYCanciones: getAlbumsYCanciones(state)
 });
 
-const storeConnect = connect(mapStateToProps);
-
-export default storeConnect(AlbumList);
+export default connect(mapStateToProps)(AlbumList);

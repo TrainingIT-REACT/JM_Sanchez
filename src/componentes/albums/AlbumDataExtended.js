@@ -7,19 +7,15 @@ import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
-import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import red from "@material-ui/core/colors/red";
-import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import CancionData from "../canciones/CancionData";
 
 const AlbumDataExtended = ({ album }) => {
   const urlImagen = `../../../static${album.cover}`;
-  const url = "http://localhost:3000/static/images/cover.jpg";
 
   const useStyles = makeStyles(theme => ({
     card: {
@@ -55,7 +51,11 @@ const AlbumDataExtended = ({ album }) => {
     <div>
       <Card className={classes.card}>
         <CardHeader title={album.name} subheader={album.artist} />
-        <CardMedia image={url} title={album.name} className={classes.media} />
+        <CardMedia
+          image={urlImagen}
+          title={album.name}
+          className={classes.media}
+        />
 
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">

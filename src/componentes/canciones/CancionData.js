@@ -38,9 +38,7 @@ const mapDispatchToProps = dispatch => ({
   addHistoricoCanciones: texto => dispatch(addHistoricoCanciones(texto))
 });
 
-const storeConnect = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-);
-
-export default storeConnect(CancionData);
+)(CancionData);

@@ -66,6 +66,4 @@ const mapStateToProps = state => ({
   albumsYCanciones: getAlbumsYCanciones(state)
 });
 
-const storeConnect = connect(mapStateToProps);
-
-export default storeConnect(DetallesAlbum);
+export default connect(mapStateToProps)(DetallesAlbum);

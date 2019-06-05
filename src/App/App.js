@@ -6,8 +6,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
 
 // Css
 import "./App.css";
@@ -70,23 +68,23 @@ class App extends Component {
         </AppBar>
         <Router>
           <div>
-            <div class="barraNavegacion">
+            <div className="barraNavegacion">
               <Grid container spacing={3} className="centrado">
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                   <Paper>
                     <NavLink exact activeClassName="active" to="/">
                       Inicio
                     </NavLink>
                   </Paper>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                   <Paper>
                     <NavLink exact activeClassName="active" to="/albums">
                       Albums
                     </NavLink>
                   </Paper>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                   <Paper>{this.getLoginOPerfil(this.props)}</Paper>
                 </Grid>
               </Grid>
@@ -121,9 +119,7 @@ const mapDispatchToProps = dispatch => ({
   obtenerAlbumsYCanciones: () => dispatch(obtenerAlbumsYCanciones())
 });
 
-const storeConnect = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-);
-
-export default storeConnect(App);
+)(App);

@@ -15,7 +15,10 @@ class CancionDataList extends Component {
         <CancionData
           key={cancion.id}
           cancion={cancion}
-          nombreAlbum={getNombreAlbum(cancion.album_id, this.props.albumsYCanciones.albums)}
+          nombreAlbum={getNombreAlbum(
+            cancion.album_id,
+            this.props.albumsYCanciones.albums
+          )}
         />
       ));
     } else if (this.props.albumsYCanciones.error === true) {
@@ -31,6 +34,4 @@ const mapStateToProps = state => ({
   albumsYCanciones: getAlbumsYCanciones(state)
 });
 
-const storeConnect = connect(mapStateToProps);
-
-export default storeConnect(CancionDataList);
+export default connect(mapStateToProps)(CancionDataList);

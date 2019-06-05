@@ -29,10 +29,10 @@ class Login extends Component {
   getFormulario(props) {
     if (!props.usuario.login) {
       return (
-        <div class="centrado">
+        <div className="centrado">
           <form onSubmit={evento => this.onSubmit(evento)}>
             <div>
-              <p class="titulo">Datos del login</p>
+              <p className="titulo">Datos del login</p>
               <TextField
                 required
                 id="outlined-required"
@@ -88,9 +88,7 @@ const mapDispatchToProps = dispatch => ({
   addUsuario: texto => dispatch(addUsuario(texto))
 });
 
-const storeConnect = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-);
-
-export default storeConnect(Login);
+)(Login);
